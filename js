@@ -107,3 +107,23 @@ function Fn(){
 var fn = new Fn() ;
 fn.name;
 fn.getYear();
+
+Fn是一个函数，fn对象是从Fn函数new出来的，这样fn对象就可以调用Fn.prototype的属性，
+因为每个对象都有一个隐式的属性--- "__proto__",这个属性引用了创建这个对象的函数的prototype。
+fn.__proto__ === Fn.prototype
+__proto__ 成为 “隐式原型”
+
+(四) ---隐式原型 __proto__
+
+每个函数function 都有一个 prototype，即原型
+每个对象都有一个__proto__ ，可成为隐式原型
+
+var obj ={};
+obj.__proto__;
+
+obj.__proto__  === Object.prototype;
+
+obj 这个对象是由Object 函数创建的，
+因此 obj.__proto__ === Object.prototype
+
+ps:每个对象都有一个__proto__ 属性，指向创建该对象的函数的prototype
