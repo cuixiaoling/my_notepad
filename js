@@ -127,3 +127,71 @@ obj 这个对象是由Object 函数创建的，
 因此 obj.__proto__ === Object.prototype
 
 ps:每个对象都有一个__proto__ 属性，指向创建该对象的函数的prototype
+
+(五) instanceof 
+
+ls:
+function Foo (){};
+let f1 = new Foo();
+f1 instanceof Foo ; //true
+f1 instanceof Object; //true
+A               B
+instanceof 的判断规则是：沿着A__proto__这条线来找，同时沿着B的prototype这条线来找，
+如果两条线能找到同一个引用，即同一个对象，那么就会返回true。如果找到终点还没有重合，
+则返回 false 
+
+ls:
+true
+Object instanceof Function
+Function instanceof Object
+Function instanceof Function 
+
+继承 原型链
+
+instanceof 表示的就是一种继承关系，或者原型链的结构
+(六) 继承
+function Foo(){}
+var f1 = new Foo();
+f1.a = 10;
+Foo.prototype.a = 100;
+Foo.prototype.b = 200;
+
+f1.a = 10;
+f1.b = 200;
+ps: 访问一个对象的属性时，先是在基本的属性中找，如果没有，
+在沿着__proto__ 这条链上找，这就是原型链。
+
+ps:区分是自己的基本属性还是原型上的属性，hasOwnProperty  (是自己的属性)
+由于所有的对象的原型都会找到 Object.prototype ,因此所有的对象都会有 Object.prototype 的方法。这就是所谓的继承
+
+var item;
+for(item in f1){
+// 遍历对象的属性
+}
+ls: 每个函数都有call，apply方法，都有length，arguments，caller等属性。
+
+对数组的命名 +s / +List
+
+对数组的处理：   .join('')  返回新字符串，原数组不变
+                 .splice(0,1,'aa') 返回截取的值，对数组进行改变 ！import
+                 .slice(2,3) 返回截取片端，不会对数组进行改变
+                 .push() 尾添加，返回长度
+                 .unshift()
+                 .pop()  尾删除，返回数组最后一个元素
+                 .shift() 
+                 .toString() 变字符串
+
+对字符串的处理：.split('')   返回新数组，原字符串不变，以什么分隔
+                .slice(0,8)  返回截取片端，不会对原字符串进行修改
+                parseInt() 变成数值型
+                .substr(0,5) 0开始截取 5个
+
+对数值的处理：  .ceil()     向上取整
+                .floor()    向下取整
+                parseInt()  取整
+                .toString() 变字符串
+
+
+
+
+
