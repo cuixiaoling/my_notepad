@@ -170,6 +170,188 @@ for(item in f1){
 }
 ls: 每个函数都有call，apply方法，都有length，arguments，caller等属性。
 
+Function.prototype.__proto__ = Object.prototype
+(七) 原型的灵活性
+(八) 简述执行上下文
+文档准备工作
+·变量、函数表达式---变量声明，默认赋值 undefind
+·this ---- 赋值
+·函数声明 ---- 赋值
+这三种数据的准备情况我们称之为 “执行上下文” 或者 “执行上下文环境”
+
+
+代码段：
+全局代码，函数体，eval
+
+(九)
+给执行上下文环境下一个通俗的定义——
+在执行代码之前，把将要用到的所有的变量都事先拿出来，有的直接赋值了，有的先用undefined占个空。
+
+var a=10;
+function fn(){
+    console.log(a);
+}
+function bar (f){
+    var a = 20;
+    f()
+}
+bar(fn)
+全局代码的上下文环境数据内容为：
+
+普通变量（包括函数表达式），如： var a = 10;声明（默认赋值为undefined）
+
+函数声明，如： function fn() { }赋值
+
+this 赋值 
+
+
+如果代码段是函数体，那么在此基础上需要附加：
+参数 赋值
+arguments 赋值
+自由变量的取值作用域 赋值
+
+(十) this
+在函数中this到底取何值，是在函数真正被调用执行的时候确定的，
+函数定义的时候确定不了。因为this的取值是执行上下文环境的一部分，
+每次调用函数，都会产生一个新的执行上下文环境
+
+1.构造函数
+function Foo(){
+    this.name ="xiix";
+    this.year = 2323
+    console.log(this); //Window
+}
+Foo();
+2,函数作为对象的一个属性
+var obj = {
+    x:10,
+    fn:function(){
+        console.log(this); // object
+        console.log(this.x);//10
+    }
+}
+obj.fn();
+
+作为一个对象的属性被调用，结果this 就是 obj 对象
+
+!import  如果fn函数不作为obj的一个属性调用
+var obj = {
+    x:10,
+    fn:function(){
+        console.log(this); // window
+        console.log(this.x);//10
+    }
+}
+var fn1 = obj.fn
+fn1();
+函数被赋值到一个变量中，没有作为obj的一个属性被调用，this -> window 
+3,函数用call 或者 apply调用
+var obj = {
+    x:10
+}
+var fn = function (){
+    console.log(this); //obj
+    console.log(this.x)
+}
+fn.call(obj); // call 方法传入一个 this
+4,全局 && 调用普通函数 this 永远是window
+
+var obj = {
+    x:10,
+    fn:function(){
+        function f(){ 
+            console.log(this) //window
+            console.log(this.x)
+        }
+        f();
+    }
+}
+obj.fn();
+//函数f虽然是在obj.fn内部定义的，但是它仍然是一个普通的函数，this仍然指向window。
+// 执行jQuery.extend(…)时，this指向jQuery；执行jQuery.fn.extend(…)时，this指向jQuery.fn。
+(十一)执行上下文栈
+a b c d e f g h l mn o p q rstuv w s y z 
+ 
+a b c d e f g h l m n o p q r s t u v w x y z 
+
+
+  执行全局代码时，会产生一个执行上下文环境，每次调用函数都会产生执行上下文环境。
+  当函数调用完成时，这个上下文环境以及其中的数据都会被消除，再重新回到上下文环境。
+  处于活动状态的执行上下文环境只有一个。
+(十四) 从自由变量 到 作用域链
+
+
+
+
+取值：要到创建这个函数的那个作用域中取值——是“创建”，
+而不是“调用”，切记切记——其实这就是所谓的“静态作用域”。
+
+(十五) 闭包
+闭包 -- 函数作为返回值 ，函数作为参数传递
+1，函数作为返回值
+function fn (){
+    var max = 10;
+    return function bar(x){
+        if(x > max){
+            console.log(x);
+        }
+    }
+}
+var f1 = fn();
+f1(15);
+2，函数作为参数传递
+var max =10,
+fn = function(x){
+    if(x > max){
+        console.log(x);
+    }
+}
+(function(f){
+    var max = 100;
+    f(15)
+})(fn)
+
+
+PS:匿名函数,自动执行
+(function(x){console.log(x)})(89)
+
+
+深拷贝
+
+function deepClone(obj){
+    var newObj = obj instanceof Array ?[] :{};
+    // obj 属于基本数据类型，直接返回 obj
+    if(typeof obj !== 'object'){
+        return obj;
+    }else{
+        // obj 属于数组或对象，遍历它们
+        for( var i in obj){
+            newObj[i] = typeof obj[i] === 'object' ? deepClone(obj[i]):obj[i];
+        }
+    }
+    return newObj;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 对数组的命名 +s / +List
 
 对数组的处理：   .join('')  返回新字符串，原数组不变
