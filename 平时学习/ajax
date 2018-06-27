@@ -1,0 +1,18 @@
+Ajax
+XMLHttpRequest
+能够以异步方式从服务器取得更多信息，意味着用户单击后，可以不必刷新页面也能取得新数据。
+也就是说，可以使用XHR对象取得新数据，然后再通过DOM将数据插在页面上。
+无序刷新界面即可从服务器获取数据，但不一定是XML数据
+
+try{
+
+}catch(ex){
+    
+}
+
+get post 
+post 请求应该把数据作为请求的主体提交
+get 请求 速度快，带上数据少，安全性低
+
+XMLHttpRequest2
+FormData

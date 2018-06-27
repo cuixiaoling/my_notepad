@@ -1,0 +1,12 @@
+v-if="aa==1"
+wx:if="{{aa==1}}"
+v-for="(item,index) in list"
+wx:for="{{list}}" wx:index="{{index}}" data-id="{{item.id}}"
+
+vertical-align:moddle;
+vertical-align:bottom;
+vertaical-align:text-top;
+
+引用类型
+
+引用类型的值是引用类型的一个实例

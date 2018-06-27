@@ -1,0 +1,58 @@
+promise 是异步编程的一种解决方案
+promise 是一个对象，从它可以获取异步操作的消息；
+从本意上讲，它是承诺，承诺它一段时间会给你一个结果。
+
+//当参数a大于10且 参数fn2是一个方法时  执行fn2
+
+function f1(a,fn2){
+	if(a>10 && typeof fn2 =='function'){
+		fn2()
+	}
+}
+f1(11,function(){
+	console.log('this is a callback')
+})
+//一般的时候会碰到的回调嵌套都不会很多，一般就一到两级，但是某些情况下，
+回调嵌套很多时，代码就会非常繁琐，会给我们的编程带来很多的麻烦，这种情况
+俗称----回调地狱
+
+promise 是用来解决两个问题；
+· 回调地狱，代码难以维护，常常第一个的函数的输出是第二个函数的输入这种现象。
+· promise 可以支持多个并发的请求，获取并发请求中的数据
+· 这个promise可以解决异步的问题，本身不能说promise是异步的
+
+es6 promise 用法大全
+promise 是一个构造函数，自己身上有all，reject，resolve这几个眼熟的方法，
+原型上有then ,catch 等同样眼熟的方法
+new 一个
+
+let p = new Promise (( resolve ,reject)=>{
+	// 做一些异步的操作
+	setTimeout(()=>{
+		console.log('执行完成');
+		resolve('我是成功的')
+	},2000)
+});
+
+Promise 的构造函数接收一个参数:函数，并且这个函数需要传两个参数：
+· resolve : 异步操作执行成功后的回调函数
+· reject : 异步操作执行失败后的回调函数
+
+then 链式 操作的用法
+所以，从表面上看，Promise 只是能够简化层层回调的写法，
+而实质上，Promise 的精髓是"状态"，用维护状态，传递状态的方式
+来使得回调函数能够及时调用，它比传递callback函数要简单，灵活的多，
+所以使用Promise的正确场景是这样的：
+p.then((data)=>{
+	console.log(data);
+})
+.then((data)=>{
+	console.log(data)
+})
+.then((data)=>{
+	console.log(data)
+})
+
+reject的用法：
+把 Promise的状态置为rejected，这样我们在then中就能捕捉到，
+然后执行"失败"情况的回调。
