@@ -68,9 +68,62 @@ flex 布局
 }
 
 js 对数组，字符串常用的方法
+Array
+数组变字符串 .join 返回字符串
+截取数组片段 .slice(indexStart,indexEnd) 返回数组片段 indexEnd 可以是负值 (不含indexEnd)
+删除并添加   .splice(删除index,几个,添加的内容)
+1，改变原数组
+2，返回删除的部分
+3，再删除的开始添加内容
+String
+字符串变数组 .split 返回一个数组
+截取字符串片段 .slice() || .substr(index,num) num 截取的长度
 
-es6 常用的方式
+es6 常用的方法
+字符串的拼接 `${变量}haha`
+
+1.let, const 都是块级作用域，其有效范围仅在代码块中。
+2.模板字符串
+`出售 <span>${obj.num}</span> 剩下 <span>${obj.showNum}</span>`
+4.字符串遍历 输出 补全
+    for(let item of 'str'){
+        console.log(item); // str
+    }
+//参数1：[number] 目标字符串长度
+//参数2：[string] 进行补全的字符串
+'123'.padStart(5, '0')//00123 - 字符串不足5位，在头部补充不足长度的目标字符串
+'345'.padEnd(5, '0')//34500 - 在尾部进行字符串补全
+5.数组扩展
+Array.of(3,4,5)//快速转换为数组 [3,4,5]
+数组的拼接 let arr = [...arr1,..arr2]  所有内容合并，但并不会去除重复
+for(let i of ['x','y'].keys()){
+    console.log(i) // 0 1
+}
+for(){}
+
+
+
+class 真正的类概念
+promise 异步
+模块开发 import export export default
+
 1， view hover-class 
     propagation 冒泡 ，hover-stop-propagation 指定是否阻止本节点的祖先节点出现冒泡点击态
     hover-start-time
     hover-stay-time
+
+小海航运圈
+首页 - 瀑布流
+多个input 框取值问题
+bindinput bintblur
+
+交易中心
+组件开发
+
+<td  v-html="item.noticeContent" style="padding-left: 60px;"></td>
+
+
+
+
+
+
