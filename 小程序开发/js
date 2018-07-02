@@ -1,0 +1,159 @@
+function.prototype.bind(...)
+
+if (!Function.prototype.bind) {
+Function.prototype.bind = function(oThis) {
+if (typeof this !== "function") {
+// 􀸴 ECMAScript 5 􀝂􀦋􀗤􀬯
+// 􀯅􀳱 IsCallable 􀱀􀥅
+throw new TypeError(
+"Function.prototype.bind - what is trying " +
+"to be bound is not callable"
+);
+}
+var aArgs = Array.prototype.slice.call( arguments, 1 ),
+fToBind = this,
+fNOP = function(){},
+fBound = function(){
+return fToBind.apply(
+(
+this instanceof fNOP &&
+oThis ? this : oThis
+),
+aArgs.concat(
+Array.prototype.slice.call( arguments )
+);
+}
+;
+fNOP.prototype = this.prototype;
+fBound.prototype = new fNOP();
+return fBound;
+};
+}
+bind(...) 的功能之一就是可以把除了第一个参数(第一个参数用于绑定this)
+之外的其他参数都传给下层的函数(这种技术称为“部分应用”)
+
+this 需要有时间再看一下，还是有点`~~
+.call() 和 .apply() 的区别
+
+
+
+.call( null)  
+
+function foo(a,b){
+    console.log(`a:${a}`,`b:${b}`)
+}
+// 把数组’展开‘成参数
+foo.apply(null,[2,3])   // a:2 b:3
+// 使用bind 进行 柯里化
+var bar = foo.bind(null,2);
+bar(3); // a:2 ,b:3
+
+间接引用
+function foo() {
+    console.log( this.a );
+}
+var a = 2;
+var o = { a: 3, foo: foo };
+var p = { a: 4 };
+o.foo(); // 3
+(p.foo = o.foo)(); // 2
+赋值表达式p.foo = o.foo 的返回值是目标函数的引用，因此调用位置是foo()
+软绑定
+给默认绑定指定一个全局对象和undifined以外的值
+function foo() {
+console.log("name: " + this.name);
+}
+var obj = { name: "obj" },
+    obj2 = { name: "obj2" },
+    obj3 = { name: "obj3" };
+var fooOBJ = foo.softBind( obj );
+fooOBJ(); // name: obj
+obj2.foo = foo.softBind(obj);
+obj2.foo(); // name: obj2 <----看
+fooOBJ.call( obj3 ); // name: obj3 <---- k
+setTimeout( obj2.foo, 10 );
+// name: obj <----应用了软绑定
+
+箭头函数的词法作用域
+箭头函数不使用this的四种标准规则，
+而是根据外层（函数或则全局）作用域来决定this
+
+根据当前的词法作用域来决定this，具体来说，
+箭头函数会继承外层函数调用的this绑定（无论this绑定到什么）
+这其实和ES6之前代码中的self = this机制一样
+
+函数调用位置的不同会造成this绑定对象的不同
+
+对象
+表达式
+构造形式
+工厂模式
+var myObj = {
+    key:value
+}
+var myObj = new Object();
+myObj.key = value
+
+object.created(null) //没有 prototype 属性
+
+var strObject = new String("I am a string")
+typeof strObject ; // 'Object'
+strObject instanceof String; // true
+// 检查sub-type对象
+Object.prototype.toString.call( strObject ); // [object String]
+
+属性与方法
+无论返回值是什么类型，每次访问对象的属性就是属性访问，
+如果属性访问返回的是一个函数，那它也并不是一个“方法”。属性访问返回的函数和
+其他函数没有什么区别
+函数和方法在javaScript中是可以互换的
+super
+复制对象
+
+浅复制
+深复制
+es6 object.assign(...) 方法实现浅复制
+Object.assign(...)第一个参数是目标对象，之后还可以跟一个或多个源对象。
+Object.defineProperty(..) 设置对象的属性
+
+[[Get]]
+[[Put]]
+对象默认的[[Put]] 和 [[Get]]操作分别可以控制属性值的设置和获取
+Getter Setter
+
+//判断是不是自己的私有属性
+var myObject = {
+    a:2
+};
+("a" in myObject); // true
+("b" in myObject); // false
+myObject.hasOwnProperty( "a" ); // true
+myObject.hasOwnProperty( "b" ); // false
+
+Object.prototype.hasOwnProperty.call(myObject,"a")
+
+对 对象的循环 for..in 
+for(var k in myObject){
+    console.log(k,myObject[k])
+}
+// "a" 2
+
+object.keys(..) 返回一个数组，包含所有可枚举的属性
+对数组的枚举
+for(){}
+forEach(..) 会遍历数组中的所有值并忽略回调函数的返回值
+every(..) 
+some(..)
+普通的for(..) 循环 循环的是数组的角标
+ES6 for...of 循环语句 
+for(let i =0; i<5;i++){
+    i // 角标
+}
+for( var v of myArray){
+    v // 值
+}
+for( var k in myObject){
+    k // 属性名称
+}
+
+
