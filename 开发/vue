@@ -1,0 +1,60 @@
+var vm = new Vue({
+    el:'#app',
+    data:{
+        a:10,
+        obj:{
+            'a':1
+        }
+    }
+})
+Vue.set(vm.obj,"b",2);
+vm.$set(vm.obj,"b",2);
+
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+    
+})
+</script>
+<script>
+    import { footer } from '../footer';
+    export default{
+        data(){
+            return{
+
+            }
+        }
+    },
+    methods:{
+
+    },
+    created(){
+
+    },
+    mounted(){
+
+    }
+</script>
+vue 执行Dom更新是异步的，只要观察到数据变化，Vue就开始一个队列，
+将同一个事件循环内所有的数据变化缓存过来
+数据变化之后等待Vue完成更新DOM，可以在数据变化之后立即使用 Vue.nextTick(callback)
+这样回调就会在DOM更新后就会调用
+
+组件之间的传值
+父组件 -- 子组件
+通过 watcher 我们能监听到任何数值属性的数值更新。
+component 注册组件
+<div id="app">
+    <my-component></my-component>
+</div>
+<script>
+    // 1.创造一个组件构造器
+    var myComponent = Vue.extend({
+        template:'<div> This is my first component</div>'
+    })
+    // 2.注册组件
+    Vue.component('my-component','myComponent')
+    new Vue({
+        el:'#app'
+    })
+</script>

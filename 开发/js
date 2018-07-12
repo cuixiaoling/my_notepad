@@ -155,5 +155,11 @@ for( var v of myArray){
 for( var k in myObject){
     k // 属性名称
 }
-
-
+ES6 
+如果无法在对象本身找到需要的属性，就会继续访问对象的
+[[Prototype]]链
+var myObject = object.create(anothObject);
+object.prototype
+hasOwnProperty(..)
+isPrototypeof(..)
+不用赋值 = 操作符，用Object.defineProperty(..) 第三章

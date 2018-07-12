@@ -1,0 +1,14 @@
+onShareAppMessage
+<button open-type="share"></button>
+
+<canvas></canvas>
+
+<ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ pie }}" style="z-index:999;"></ec-canvas>
+// 将ec-canvas 组件找到 方法赋给 this.pieComponent
+this.pieComponent = this.selectComponent('#mychart-dom-pie');
+{
+    "components":true,
+    "usingComponents":{
+        "ec-canvas":"../../ec-canvas/ec-canvas"
+    }
+}
