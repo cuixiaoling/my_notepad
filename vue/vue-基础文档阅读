@@ -56,4 +56,6 @@ render function 会被转化成 VNode节点。Virtual DOM 其实就是一颗以J
 对象（VNode 节点）作为基础的树，用对象属性来描述节点，实际上它只是一层对真实DOM
 的抽象。最终可以通过一系列操作使这棵树映射到真实环境上。由于Virtual DOM 是以JavaScript
 对象为基础而不依赖真实平台环境，所以使它具有了跨平台的能力，比如说浏览器平台、weex、Node等。
+(四) 更新视图
+
 
