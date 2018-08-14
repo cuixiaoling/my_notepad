@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		// 闭包
+/*		function foo() {
+			var a = 2;
+			function bar() {
+				console.log( a );
+			}
+			return bar;
+		}
+		var baz = foo();
+		baz();*/
+		/* 	闭包的应用场景
+			函数bar 的词法作用域能访问foo 的内部作用域。
+			实际上只是通过不同的标识符引用调用了内部的函数 bar()
+
+
+			引用调用了内部的函数，为什么能调到内部的函数，
+			一定是外层的函数 return 出 内部的函数，这样在函数外，就可以调到内部的方法
+
+			它在自己定义的词法作用域以外的地方执行
+			拜bar()所声明的位置所赐，它拥有涵盖foo()内部作用域的闭包，使得该作用域能够一直存活，
+			以供bar()在之后任何时间进行引用。
+
+			bar()依然持有对该作用域的引用，而这个引用就叫作闭包
+
+
+		*/
+		// 命名将要作为公共API返回的对象
+		var foo =( function CoolModule(id){
+
+			function change(){
+				// 修改公共API
+				publicAPI.identify=identify2
+			}
+			function identify1(){
+				console.log(id);
+
+			}
+			function identify2(){
+				console.log(id.toUpperCase());
+			}
+			var publicAPI ={
+				change:change,
+				identify:identify1
+			};
+			return publicAPI;
+		})("foo name");
+		foo.identify();
+		foo.change();
+		foo.identify();
+
+	</script>
+</body>
+</html>

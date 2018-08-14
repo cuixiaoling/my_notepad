@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			background:#f4f4f4;
+		}
+		.color1{
+			color:red;
+		}
+		.active{
+			background: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<p>{{foo}}</p>
+		<button v-on:click="foo='baz'">绑定监听改变事件</button>
+		<p>aa:<span v-html="rawHtml"></span></p>
+		<p v-once>这个值不会改变(v-once)：{{foo}}</p>
+		<p>计算属性</p>
+		<p> {{message}} </p>
+		<p> {{reverseMessage}} </p>
+		<p> {{reverseMessage2()}} </p>
+		<p>侦听属性</p>
+		<div>{{fullName}}</div>
+		<div>class和style</div>
+		<div v-bind:class="{color1:isActive}">class1</div>
+		<div v-bind:class="classObject">对象的形式，传两个class</div>
+		<div v-bind:class="[activeClass,errorClass]">数组的形式定义多个class</div>
+		<div v-bind:class="[isActive?'color1':'']">用数组的形式来写三元表达式</div>
+			
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script type="text/javascript">
+		// Object.freeze(obj) //不会双向改变值
+		let vm1 = new Vue({
+			el:'#app',
+			data:{
+				foo:'bar',
+				rawHtml:'<span style="color:red;">我是红色</span>',
+				message:'hello',
+				firstName:'Foo',
+				lastName:'Bar',
+				isActive:true,
+				error:null,
+				activeClass:'color1',
+				errorClass:'active'
+
+				// fullName:'Foo Bar'
+			},
+			// watch:{
+			// 	firstName:function(val){
+			// 		this.fullName = val+' '+this.lastName
+			// 	},
+			// 	lastName:function(val){
+			// 		this.fullName = firstName + ' ' +val
+			// 	}
+
+			// },
+			computed:{
+				// fullName:function(){
+				// 	return this.firstName + ' '+this.lastName 
+				// },
+				// 计算属性的getter
+				reverseMessage:function(){
+					// this 指向vm的实例
+					return this.message.split('').reverse().join('')
+				},
+				// 声明一个计算属性，reverseMessage.我们提供的函数将用作属性
+				// vm.reverseMessage的getter 函数
+				/* 添加 setter */
+				fullName:{
+					// getter
+					get:function(){
+						return this.firstName + ' ' + this.lastName
+					},
+					// setter
+					set:function(newValue){
+						var names = newValue.split('');
+						this.firstName =names[0];
+						this.lastName = names[1]; 
+					}
+				},
+				classObject:function(){
+					return{
+						active:this.isActive &&!this.error,
+						'text-danger':this.error && this.error.type === 'fatal'
+					}
+				}
+			},
+			methods:{
+				reverseMessage2:function(){
+					return this.message.split('').reverse().join('')
+				}
+			}
+		})
+		/*
+			计算属性缓存 vs 方法
+			计算属性是基于他们的依赖进行缓存的，
+			计算属性只有在它的相关依赖发生改变时才会重新求值。
+			如果message 没有发生变化，多次访问reverseMessage 计算属性会立即返回之前的计算结果、而不执行函数
+			相比之下，每当触发重新渲染时，调用方法将总会再次执行函数
+
+			计算属性 vs 侦听属性
+
+			计算属性的setter
+
+		*/
+		console.log(vm1,'vm1')
+		console.log(vm1.$data,'.$data')
+		/*
+			实例属性与方法，都有前缀 $
+		*/
+		vm1.$watch('foo',function(newValue,oldValue){
+			console.log(newValue,'$watch')
+			console.log(oldValue,'$watch')
+		})
+
+		/*
+			每个vue实例在被创建时都要经过一系列的初始化过程--
+			例如：需要设置数据监听、编译模板、将实例挂载到DOM
+			并在数据变化时更新DOM等。
+			同时在这个过程中会运行一些叫做生命周期钩子的函数
+			生命周期
+		*/
+		/*
+			Vue.js使用了基于HTML的模板语法，
+			允许开发者声明式地将DOM绑定至底层Vue实例的数据
+		*/
+
+		/*
+			// 插值
+
+			原始html
+
+			可以绑定表达式
+			{{ number + 1 }}
+
+			{{ ok ? 'YES' : 'NO' }}
+
+			{{ message.split('').reverse().join('') }}
+
+			<div v-bind:id="'list-' + id"></div>
+			模板表达式都被放在沙盒中，只能访问全局变量的一个白名单，
+			如：Math和Date。你不应该在模板表达式中试图访问用户定义的全局变量。
+		*/
+		/*
+			//指令
+
+			指令特性的预期是单个JavaScript表达式，
+			指令的职责是，当表达式的值改变时，将其产生的连带影响，
+			响应式地作用于DOM。
+			<p v-if="seen"> 现在你看见我啦 </p>
+			这里，v-if 指令将根据表达式 seen的值得真假来插入或删除 <p> 元素
+
+			#参数
+			v-bind 指令 可以响应式的更新html 特性
+			<a v-bind:href="url">...</a>
+			href 是参数，告知v-bind 指令将该元素的href 特性与表达书url的值绑定
+
+			v-on 指令，用于监听DOM 事件
+			<a v-on:click="doSomeing">...</a>
+			参数是事件名
+
+			#修饰符
+
+			// 缩写
+			v-bind:   === :
+			<a v-bind:href="url">...</a>
+			:href="url"
+			v-on === @
+
+		*/
+		/*
+			计算属性与侦听器
+		*/
+		/*
+			class与style
+			表达式结果类型除了字符串之外，还可以是对象或数组
+			v-bind:class="{color1:isActive}"
+		*/
+		function aa(){
+			var a = 2;
+			function bb(){
+				console.log(a);
+			}
+			return bb;
+		}
+		var cc =  aa();
+		console.log(cc(),'bibi');
+
+		function foo() {
+			var a = 2;
+			function bar() {
+			console.log( a );
+			}
+			return bar;
+		}
+		var baz = foo();
+		baz(); // 2 ———— 􀵙􀸜􀆇这􀠷􀥖闭􀵌􀬯􁋓􀑗􀆆
+		console.log(baz(),"************")
+	</script>
+</body>
+</html>
